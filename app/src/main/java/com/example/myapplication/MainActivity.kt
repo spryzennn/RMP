@@ -1,21 +1,15 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
-    private var savedText: String = ""
-    
-    companion object {
-        private const val KEY_TEXT = "saved_text"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,26 +20,24 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val editText = findViewById<EditText>(R.id.editText)
-        val textView = findViewById<TextView>(R.id.textView)
-        val button = findViewById<Button>(R.id.button)
-
-        // Restore saved state
-        savedInstanceState?.let {
-            savedText = it.getString(KEY_TEXT, "")
-            textView.text = savedText
-            editText.setText(savedText)
-        }
-
-        button.setOnClickListener {
-            val text = editText.text.toString()
-            savedText = text
-            textView.text = text
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(KEY_TEXT, savedText)
+        val sun = findViewById<ImageView>(R.id.sun)
+        
+        // Load animations
+        val sunrise = AnimationUtils.loadAnimation(this, R.anim.sunrise)
+        val sunset = AnimationUtils.loadAnimation(this, R.anim.sunset)
+        
+        // Create a combined animation set
+        val dayCycle = AnimationUtils.loadAnimation(this, R.anim.sunrise)
+        dayCycle.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+            override fun onAnimationRepeat(animation: Animation?) {}
+            override fun onAnimationEnd(animation: Animation?) {
+                // Start sunset after sunrise completes
+                sun.startAnimation(sunset)
+            }
+        })
+        
+        // Start the animation
+        sun.startAnimation(dayCycle)
     }
 }
