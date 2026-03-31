@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +9,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
+    private var counter = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,15 +22,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         val textView = findViewById<TextView>(R.id.textView)
-        val buttonShow = findViewById<Button>(R.id.buttonShow)
-        val buttonHide = findViewById<Button>(R.id.buttonHide)
+        val button = findViewById<Button>(R.id.button)
 
-        buttonShow.setOnClickListener {
-            textView.visibility = View.VISIBLE
-        }
-
-        buttonHide.setOnClickListener {
-            textView.visibility = View.GONE
+        button.setOnClickListener {
+            counter++
+            textView.text = counter.toString()
         }
     }
 }
