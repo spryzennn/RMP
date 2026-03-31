@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -20,10 +21,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         val textView = findViewById<TextView>(R.id.textView)
-        val button = findViewById<Button>(R.id.button)
+        val buttonShow = findViewById<Button>(R.id.buttonShow)
+        val buttonHide = findViewById<Button>(R.id.buttonHide)
 
-        button.setOnClickListener {
-            textView.text = "Hello, Android!"
+        buttonShow.setOnClickListener {
+            textView.visibility = View.VISIBLE
+        }
+
+        buttonHide.setOnClickListener {
+            textView.visibility = View.GONE
         }
     }
 }
